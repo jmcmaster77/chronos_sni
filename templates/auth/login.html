@@ -1,28 +1,22 @@
-{% extends './base/base.html' %}
-
-{% block title %}Chronos Sistema de Notas Inteligente{% endblock %}
-
-{% block customCSS %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
-{% endblock %}
-
-{% block body %}
+{% extends './base/base.html' %} {% block title %}Chronos Sistema de Notas Inteligente{% endblock %} {% block customCSS %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}" />
+{% endblock %} {% block body %}
 <form class="form-signin" action="/login" method="POST">
-    <div class="logo-container">
-        <img class="mb-4" src="{{ url_for('static', filename='img/chronos_sni_logo.png') }}" alt="" width="150" height="150">
-    </div>
-    <div class="mb-2 text-white">
-        <h1 class="h3 mb-3 fw-normal">Inicia sesión</h1>
-    </div>
-    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-    <div class="form-floating">
-        <input type="text" class="form-control" id="username" name="username" placeholder="Username" minlength="4" maxlength="8" autocomplete="username" required>
-        <label for="username">nombre de usuario</label>
-    </div>
-    <div class="form-floating mt-2">
-        <input type="password" class="form-control" id="password" name="password" placeholder="Password" minlength="6" maxlength="10" required>
-        <label for="password">clave</label>
-    </div>
-    <button class="w-100 btn btn-lg btn-primary" type="submit">Ingresar</button>
+  <div class="logo-container">
+    <img class="mb-4" src="{{ url_for('static', filename='img/chronos_sni_logo.png') }}" alt="" width="150" height="150" />
+  </div>
+  <div class="mb-2 text-white">
+    <h1 class="h3 mb-3 fw-normal">Inicia sesión</h1>
+  </div>
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+  <div class="form-floating">
+    <input type="text" class="form-control" id="username" name="username" placeholder="Username" minlength="4" maxlength="8" autocomplete="username" required />
+    <label for="username">nombre de usuario</label>
+  </div>
+  <div class="form-floating mt-2">
+    <input type="password" class="form-control" id="password" name="password" placeholder="Password" minlength="6" maxlength="10" required />
+    <label for="password">clave</label>
+  </div>
+  <button class="w-100 btn btn-lg btn-primary" type="submit">Ingresar</button>
 </form>
 {% endblock %}
