@@ -5,7 +5,7 @@ from config import FLASK_RUN_HOST, FLASK_RUN_PORT, ipserver, soporte, config, ap
 from flask_wtf.csrf import CSRFProtect
 from utils.db_init import cronos_db_init
 from utils.db import engine
-from schemas import Userdb
+from models import Userdb  # posiblemente se mueva de aqui
 from flask_login import LoginManager
 from utils.log import logger
 from flask_toastr import Toastr
@@ -21,12 +21,12 @@ csrf = CSRFProtect()
 toastr = Toastr()
 toastr.init_app(app)
 
-app.config['TOASTR_CLOSE_BUTTON'] = 'false'
-app.config['TOASTR_TIMEOUT'] = '1500'
+app.config["TOASTR_CLOSE_BUTTON"] = "false"
+app.config["TOASTR_TIMEOUT"] = "1500"
 
 
-# Dev <- continuamos mas tarde por aca  
-# Userdb.Base.metadata.create_all(bind=engine) 
+# Dev <- continuamos mas tarde por aca
+# Userdb.Base.metadata.create_all(bind=engine)
 
 # Registrando rutas en Blueprint
 app.register_blueprint(authentication)
@@ -37,34 +37,39 @@ app.register_blueprint(authentication)
 # @login_manager_app.user_loader
 # def load_user(id):
 
-def mensajeria():
+
+def mensajeria(modo):
     logger.info("App Iniciada")
+    if modo == "dev":
+        logger.info("🔧 Ejecutando en modo desarrollo")
+    if modo == "pro":
+        logger.info("🚀 Ejecutando en modo producción con Waitress")
     logger.info(appinfo)
     logger.info(f"Servidor running ip:{ipserver} on port: {str(FLASK_RUN_PORT)}")
     logger.info(f"Plantel: {plantelinfo}")
     logger.info(soporte)
+
 
 if __name__ == "__main__":
     mode = "produccion"
     if len(sys.argv) > 1 and sys.argv[1] == "dev":
         mode = "desarrollo"
 
-    app.config.from_object(config['development'])
+    app.config.from_object(config["development"])
     csrf.init_app(app)
-   
+
     if mode == "desarrollo":
         # Iniciar en desarrollo
         if os.environ.get("WERKZEUG_RUN_MAIN") == "true":
-            mensajeria()
-            # ritual de inicio de la base de datos 
-            cronos_db_init()  
-            logger.info("🔧 Ejecutando en modo desarrollo")
+            mensajeria("dev")
+            # ritual de inicio de la base de datos
+            cronos_db_init()
         app.run(host=FLASK_RUN_HOST, port=FLASK_RUN_PORT)
     else:
         # Iniciar en produccion
         from waitress import serve
-        mensajeria()
+
+        mensajeria("pro")
         # ritual de inicio de la base de datos
         cronos_db_init()
-        logger.info("🚀 Ejecutando en modo producción con Waitress")
         serve(app, host=FLASK_RUN_HOST, port=FLASK_RUN_PORT, threads=8)
