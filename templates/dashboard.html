@@ -1,9 +1,15 @@
-{% extends './base/base.html' %}
-
-{% block title %}Chronos Sistema de Notas Inteligente - Dashboard{% endblock %}
-
-{% block body %}
+{% extends './base/base.html' %} {% block title %}Chronos Sistema de Notas Inteligente - Dashboard{% endblock %} {% block body %}
 <h1>You know where you are?</h1>
 <h2>You're in the jungle, baby</h2>
 <h3>You're gonna die</h3>
+<button></button>
+<div>
+  <a href="{{ url_for('authentication.logout')}}">
+    <span class="icon">
+      <img src="{{ url_for('static', filename='ico/logout.svg') }}" alt="" />
+    </span>
+    <span class="title">Salir</span>
+  </a>
+</div>
+
 {% endblock %}
