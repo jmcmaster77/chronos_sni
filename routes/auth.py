@@ -19,13 +19,6 @@ def root():
         return redirect(url_for("authentication.login"))
 
 
-@authentication.errorhandler(CSRFError)
-def handle_csrf_error(e):
-    logger.error("CSRF token expirado: reridigiendo al login")
-    flash({"title": "Chronos SNI", "message": "CSRF token expirado"}, "error")
-    return redirect(url_for("authentication.login"))
-
-
 @authentication.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
@@ -100,3 +93,13 @@ def logout():
         flash({"title": "Chronos SNI", "message": "Ningún usuario no ha iniciado sesión"}, "info")
 
     return redirect(url_for("authentication.root"))
+
+
+# Manejando errores
+
+
+@authentication.errorhandler(CSRFError)
+def handle_csrf_error(e):
+    logger.error("CSRF token expirado: reridigiendo al login")
+    flash({"title": "Chronos SNI", "message": "CSRF token expirado"}, "error")
+    return redirect(url_for("authentication.login"))

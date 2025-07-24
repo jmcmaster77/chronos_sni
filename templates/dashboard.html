@@ -1,15 +1,359 @@
 {% extends './base/base.html' %} {% block title %}Chronos Sistema de Notas Inteligente - Dashboard{% endblock %} {% block body %}
-<h1>You know where you are?</h1>
-<h2>You're in the jungle, baby</h2>
-<h3>You're gonna die</h3>
-<button></button>
-<div>
-  <a href="{{ url_for('authentication.logout')}}">
-    <span class="icon">
-      <img src="{{ url_for('static', filename='ico/logout.svg') }}" alt="" />
-    </span>
-    <span class="title">Salir</span>
-  </a>
+<!-- Dashboard - css  -->
+<link
+  rel="stylesheet"
+  href="{{url_for('static', filename='css/dashboard.css')}}"
+/>
+
+<!-- Navegacion  -->
+<div class="contenedor">
+  <div class="navigation">
+    <ul>
+      <li>
+        <a href="#">
+          <span class="icon">
+            <img
+              src="{{ url_for('static', filename='ico/menu.svg') }}"
+              alt=""
+            />
+          </span>
+          <span class="title">Chronos SNI</span>
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <span class="username">{{current_user.nombres}} {{current_user.apellidos}}</span>
+        </a>
+      </li>
+      <li>
+        {% if current_user.rol == 'admin' %}
+        <a href="/usuarios">
+          <span class="icon">
+            <img
+              src="{{ url_for('static', filename='ico/users.svg') }}"
+              alt=""
+            />
+          </span>
+          <span class="title">Usuarios</span>
+        </a>
+        {% else %}
+        <!-- No aparece para el rol usuario -->
+        {% endif %}
+      </li>
+      <li>
+        <a href="#">
+          <span class="icon">
+            <img
+              src="{{ url_for('static', filename='ico/copy_bkp.svg') }}"
+              alt=""
+            />
+          </span>
+          <span class="title">Clientes</span>
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <span class="icon">
+            <img
+              src="{{ url_for('static', filename='ico/copy_bkp.svg') }}"
+              alt=""
+            />
+          </span>
+          <span class="title">Proveedores</span>
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <span class="icon">
+            <img
+              src="{{ url_for('static', filename='ico/copy_bkp.svg') }}"
+              alt=""
+            />
+          </span>
+          <span class="title">Productos</span>
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <span class="icon">
+            <img src="{{ url_for('static', filename='ico/copy_bkp.svg') }}" alt="" />
+          </span>
+          <span class="title">Compras</span>
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <span class="icon">
+            <img
+              src="{{ url_for('static', filename='ico/copy_bkp.svg') }}"
+              alt=""
+            />
+          </span>
+          <span class="title">Ventas</span>
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <span class="icon">
+            <img
+              src="{{ url_for('static', filename='ico/copy_bkp.svg') }}"
+              alt=""
+            />
+          </span>
+          <span class="title">Presupuestos</span>
+        </a>
+      </li>
+      <li>
+        <a href="/acercade">
+          <span class="icon">
+            <img
+              src="{{ url_for('static', filename='ico/info.svg') }}"
+              alt=""
+            />
+          </span>
+          <span class="title">Informacion</span>
+        </a>
+      </li>
+      <li>
+        <a href="{{ url_for('authentication.logout')}}">
+          <span class="icon">
+            <img
+              src="{{ url_for('static', filename='ico/logout.svg') }}"
+              alt=""
+            />
+          </span>
+          <span class="title">Salir</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+  <!-- ========= Contenido =========== -->
+  <div class="contenido">
+    <div class="topbar">
+      <div class="toggle">
+        <img src="{{ url_for('static', filename='ico/toggle.svg') }}" alt="" />
+      </div>
+      <div class="tasa">
+        {% if current_user.rol == 'admin' %}
+        <a data-bs-toggle="modal" data-bs-target="#cambiotasaModal" href="#">
+          <span class="icono">
+            <img src="{{ url_for('static', filename='ico/copy_bkp.svg') }}" alt=""/>
+          </span>
+          <span class="tasav">99</span>
+        </a>
+        {% else %}
+        <a class="disabled" data-bs-toggle="modal" data-bs-target="#cambiotasaModal" href="#">
+          <span class="icono">
+            <img src="{{ url_for('static', filename='ico/copy_bkp.svg') }}" alt=""/>
+          </span>
+          <span class="tasav">99</span>
+        </a>
+        {% endif %}
+      </div>
+      <div class="tipoUsuario">
+        {% if current_user.rol == 'admin' %}
+        <img src="{{ url_for('static', filename='ico/admin.svg') }}" alt=""/>
+        {% else %}
+        <img src="{{ url_for('static', filename='ico/user.svg') }}" alt=""/>
+        {% endif %}
+      </div>
+    </div>
+    <!-- tarjetas  -->
+    <div class="cardBox">
+      <div class="card">
+        <div class="numbers">99</div>
+        <div class="cardname">Clientes</div>
+        <div class="iconBx">
+          <img
+            src="{{ url_for('static', filename='ico/copy_bkp.svg') }}"
+            alt=""
+          />
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="numbers">99</div>
+        <div class="cardname">Proveedores</div>
+        <div class="iconBx">
+          <img
+            src="{{ url_for('static', filename='ico/copy_bkp.svg') }}"
+            alt=""
+          />
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="numbers">99</div>
+        <div class="cardname">Productos | BD Title_p</div>
+        <div class="iconBx">
+          <img
+            src="{{ url_for('static', filename='ico/copy_bkp.svg') }}"
+            alt=""
+          />
+        </div>
+      </div>
+      <div class="card">
+        <div class="numbers">99</div>
+        <div class="cardname">Total Ventas Diarias</div>
+        <div class="iconBx">
+          <img
+            src="{{ url_for('static', filename='ico/copy_bkp.svg') }}"
+            alt=""
+          />
+        </div>
+      </div>
+    </div>
+    <!-- Ventas Recientes   -->
+
+    <div class="detalles">
+      <div class="ordenesRecientes">
+        <div class="cardHeader">
+          <h2>Ventas Recientes</h2>
+          <a href="/ventas" class="boton">Ver todas</a>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Cliente</th>
+              <th>Cantidad Item</th>
+              <th>Total Venta</th>
+              <th>Moneda</th>
+              <th>Tipo de Pago</th>
+              <th>A</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for vr in ventasr %}
+            <tr>
+              <td>{{vr.fullname}}</td>
+              <td>{{vr.productos.productos | count}}</td>
+              <td>{{vr.totalv}}</td>
+              {% if vr.bolivares %}
+              <td>Bsd</td>
+              {% else %}
+              <td>$</td>
+              {% endif%}
+              {% if vr.mpago == "Efectivo" %}
+              <td><span class="status efectivo">Efectivo</span></td>
+              {% endif %}
+              {% if vr.mpago == "Tarjeta" %}
+              <td><span class="status tarjeta">Tarjeta</span></td>
+              {% endif %}
+              {% if vr.mpago == "Transferencia" %}
+              <td><span class="status transferencia">Transferencia</span></td>
+              {% endif %}
+              {% if vr.mpago == "Otro" %}
+              <td><span class="status otro">Otro</span></td>
+              {% endif %}
+              <td>
+                <a class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#venta_detalles_{{vr.id}}" href="#">D</a>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <!-- ============ Productos con baja disponibilidad ================ -->
+      <div class="productosRecientes">
+        <h4>Prod con baja diponibilidad</h4>
+        <!-- <a href="#" class="boton">Ver Todos </a> -->
+        <table>
+          {% for producto in productosbd%}
+          <tr>
+            <td width="60px">
+              <div class="imgBx">
+                {% set rarchivo = "img/productos/" + producto.imagen %}
+                <img
+                  src="{{ url_for('static', filename=rarchivo) }}"
+                  alt=""
+                />
+              </div>
+            </td>
+            <td>
+              <h6>{{producto.nombre}} <span>- {{producto.cantidad}}</span></h6> 
+            </td>
+          </tr>
+          {%endfor%}
+        </table>
+      </div>
+    </div>
+  </div>
 </div>
+
+<!-- Modal cambio de tasa dolar BCV-->
+<div class="modal fade" id="cambiotasaModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header bg-dark">
+        <h5 class="modal-title text-white" id="exampleModalLabel">
+          Indicar la tasa de cambio del dolar del BCV
+        </h5>
+        <button type="button" class="btn-close bg-secondary" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body bg-dark">
+        <form action="/cambiotasa" method="post">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+          <input type="number" class="form-control" placeholder="tasa dolar bcv" value="" inputmode="numeric" name="ntasa" 
+          maxlength="4" step="0.01" min="0" max="99" id="" required/>
+          <div class="modal-footer bg-dark">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+              Cerrar
+            </button>
+            <button type="submit" class="btn btn-primary">Cambiar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{% for vr in ventasr %}
+<!-- Modal detalles venta -->
+<div class="modal fade" id="venta_detalles_{{vr.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+      <div class="modal-content">
+          <div class="modal-header bg-dark">
+          <h5 class="modal-title text-white" id="exampleModalLabel">Detalles venta</h5>
+          <button type="button" class="btn-close bg-secondary" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body bg-dark">
+              <div>
+                  <table class="table table-striped table-dark table-hover">
+                      <thead>
+                          <tr>
+                              <th>ID</th>
+                              <th>Producto</th>
+                              <th>Cantidad</th>
+                              <th>Costo</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                      {% for producto in vr.productos.productos%}
+                          <tr>
+                              <td>{{producto.id}}</td>
+                              <td>{{producto.nombre}}</td>
+                              <td>{{producto.cantidad}}</td>
+                              <td>{{producto.precio}}</td>
+                          </tr>
+                      {% endfor %}
+                      </tbody>
+                  </table>
+              </div>
+              <div>
+                  <h6>Interacción por id usuario: dev</h6>
+              </div>
+          </div>
+          <div class="modal-footer bg-dark">
+
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+          </div>
+      </div>
+  </div>
+</div>
+{% endfor %}
+
+<!-- ==============  Scripts ==================== -->
+<script src="{{url_for('static', filename='js/dashboard.js')}}"></script>
 
 {% endblock %}

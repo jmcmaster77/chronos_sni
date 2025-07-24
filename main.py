@@ -6,9 +6,11 @@ from utils.db_init import cronos_db_init
 from flask_login import LoginManager
 from Services.authenticator import Autenticate
 from utils.log import logger
+from utils.manejador_caos import status_404, status_401
 from flask_toastr import Toastr
 from routes.auth import authentication
 from routes.dashboard import dashboard
+from routes.usuarios import usuarios
 import sys, os
 
 
@@ -24,11 +26,13 @@ toastr.init_app(app)
 # Registrando rutas en Blueprint
 app.register_blueprint(authentication)
 app.register_blueprint(dashboard)
+app.register_blueprint(usuarios)
 
 # Se carga info del usuario
 
 login_manager = LoginManager(app)
 login_manager.init_app(app)
+
 
 @login_manager.user_loader
 def user_loader(id):
@@ -57,6 +61,8 @@ if __name__ == "__main__":
     if mode == "desarrollo":
         # Iniciar en desarrollo
         app.config.from_object(config["development"])
+        app.register_error_handler(404, status_404)
+        app.register_error_handler(401, status_401)
         if os.environ.get("WERKZEUG_RUN_MAIN") == "true":
             mensajeria("dev")
             # ritual de inicio de la base de datos
