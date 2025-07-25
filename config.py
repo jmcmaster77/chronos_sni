@@ -25,6 +25,7 @@ class Config:
     PERMANENT_SESSION_LIFETIME = timedelta(minutes=5)  # tiempo de vida del token
     TOASTR_CLOSE_BUTTON = "false"
     TOASTR_TIMEOUT = "1500"
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 
 class DevelomentConfig(Config):

@@ -31,8 +31,8 @@
             Modulos
           </a>
           <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdownMenuLink">
-            {% if current_user.rol == 0 %}
-            <li><a class="dropdown-item" href="#">Usuarios</a></li>
+            {% if current_user.rol == "admin" %}
+            <li><a class="dropdown-item" href="/usuarios">Usuarios</a></li>
             {% else %}
             <li><a class="dropdown-item disabled" href="#">Usuarios</a></li>
             {% endif %}

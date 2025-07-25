@@ -1,0 +1,159 @@
+{% extends './base/base.html' %} {% block title %} Chronos SNI | Registro de usuario {% endblock %} {% block body %} {% include('partials/navbar.html') %}
+
+<div class="card mb-1 text-white bg-dark mt-1">
+  <div class="card-body">
+    <div class="d-flex justify-content-between">
+      <h5>Registro de usuario</h5>
+      <div class="btn-group">
+        <a href="/dashboard" class="btn btn-secondary btn-sm">Inicio</a>
+        <a href="{{ url_for('usuarios.send_usuarios') }}" class="btn btn-secondary btn-sm">Retorno</a>
+        <a href="{{ url_for('authentication.logout') }}" class="btn btn-secondary btn-sm">Salir</a>
+      </div>
+    </div>
+
+    <form action="/registraru" method="post" class="mt-2" onsubmit="return validarClaves()">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+
+      <div class="row">
+        <div class="col">
+          <input type="text" class="form-control" placeholder="Nombres de usuario" aria-label="Nombre de usuario" name="username" id="username" minlength="4" maxlength="10" required />
+
+          <script type="text/javascript">
+            $(document).ready(function () {
+              $("#username").keypress(function (event) {
+                var key = event.which || event.keyCode;
+                if (
+                  (key != 32 && key < 65) ||
+                  (key > 90 && key < 97) ||
+                  (key > 122 && key != 241 && key != 209 && key != 225 && key != 233 && key != 237 && key != 243 && key != 250 && key != 193 && key != 201 && key != 205 && key != 211 && key != 218)
+                ) {
+                  toastr.options.closeButton = true;
+                  toastr.options.progressBar = true;
+                  toastr.options.positionClass = "toast-top-center";
+                  toastr.options.timeOut = 1500;
+                  toastr.error("Solo se permiten letras en el campo usuario");
+                  return false;
+                }
+              });
+            });
+          </script>
+        </div>
+        <div class="col">
+          <input type="text" class="form-control" placeholder="Nombres" aria-label="Nombres" name="nombres" id="nombres" minlength="4" maxlength="20" required />
+          <script type="text/javascript">
+            $(document).ready(function () {
+              $("#nombres").keypress(function (event) {
+                var key = event.which || event.keyCode;
+                if (
+                  (key != 32 && key < 65) ||
+                  (key > 90 && key < 97) ||
+                  (key > 122 && key != 241 && key != 209 && key != 225 && key != 233 && key != 237 && key != 243 && key != 250 && key != 193 && key != 201 && key != 205 && key != 211 && key != 218)
+                ) {
+                  toastr.options.closeButton = true;
+                  toastr.options.progressBar = true;
+                  toastr.options.positionClass = "toast-top-center";
+                  toastr.options.timeOut = 1500;
+                  toastr.error("Solo se permiten letras en el campo nombres");
+                  return false;
+                }
+              });
+            });
+          </script>
+        </div>
+        <div class="col">
+          <input type="text" class="form-control" placeholder="Apellidos" aria-label="Apellidos" name="apellidos" id="apellidos" minlength="4" maxlength="20" required />
+          <script type="text/javascript">
+            $(document).ready(function () {
+              $("#apellidos").keypress(function (event) {
+                var key = event.which || event.keyCode;
+                if (
+                  (key != 32 && key < 65) ||
+                  (key > 90 && key < 97) ||
+                  (key > 122 && key != 241 && key != 209 && key != 225 && key != 233 && key != 237 && key != 243 && key != 250 && key != 193 && key != 201 && key != 205 && key != 211 && key != 218)
+                ) {
+                  toastr.options.closeButton = true;
+                  toastr.options.progressBar = true;
+                  toastr.options.positionClass = "toast-top-center";
+                  toastr.options.timeOut = 1500;
+                  toastr.error("Solo se permiten letras en el campo apellidos");
+                  return false;
+                }
+              });
+            });
+          </script>
+        </div>
+        <div class="col">
+          <input type="text" class="form-control" placeholder="Cédula" aria-label="Cédula" name="ci" id="ci" minlength="7" maxlength="8" required />
+          <script type="text/javascript">
+            $(document).ready(function () {
+              $("#ci").keypress(function (event) {
+                var key = event.which || event.keyCode;
+                if (key < 48 || key > 57) {
+                  toastr.options.closeButton = true;
+                  toastr.options.progressBar = true;
+                  toastr.options.positionClass = "toast-top-center";
+                  toastr.options.timeOut = 1500;
+                  toastr.error("Solo se permiten números en el campo cédula");
+
+                  return false;
+                }
+              });
+            });
+          </script>
+        </div>
+      </div>
+      <div class="row mt-2">
+        <div class="col">
+          <input type="password" class="form-control" placeholder="clave" aria-label="clave" name="clave" id="clave" minlength="6" maxlength="10" required />
+        </div>
+        <div class="col">
+          <input type="password" class="form-control" placeholder="confirmar clave" aria-label="confirmar clave" name="confirmacion" id="confirmacion" minlength="6" maxlength="10" required />
+        </div>
+      </div>
+      <div class="container mt-2">
+        <div class="row">
+          <div class="col" style="text-align: center">
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="rol" id="gridRadios1" value="user" checked />
+              <label class="form-check-label" for="gridRadios1">Usuario</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="rol" id="gridRadios2" value="admin" />
+              <label class="form-check-label" for="gridRadios2">Administrador</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-end">
+        <div class="row">
+          <div class="col">
+            <div class="btn-group">
+              <button type="submit" class="btn btn-primary btn-sm">Registrar</button>
+              <a href="{{ url_for('usuarios.send_usuarios') }}" class="btn btn-secondary btn-sm">Retorno</a>
+              <a class="btn btn-secondary btn-sm" href="{{ url_for('authentication.logout') }}">Salir</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+    <script>
+      function validarClaves() {
+        const clave = document.getElementById("clave").value;
+        const confirmacion = document.getElementById("confirmacion").value;
+        if (clave != confirmacion) {
+          toastr.options.closeButton = true;
+          toastr.options.progressBar = true;
+          toastr.options.positionClass = "toast-top-center";
+          toastr.options.timeOut = 1500;
+          toastr.error("Las claves no cienciden.");
+
+          return false;
+        }
+        return true;
+      }
+    </script>
+  </div>
+</div>
+
+{% endblock %}

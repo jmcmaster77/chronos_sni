@@ -16,9 +16,9 @@
                 <a href="/dashboard" class="btn btn-secondary btn-sm ">Inicio</a>
                 <a href="/registraru" class="btn btn-success text-white btn-sm" >Agregar</a>
                 {% if deleted == true %}
-                <a href="/gusuarios" class="btn btn-primary text-white btn-sm" >Ocultar Borrrados</a>
+                <a href="/usuarios" class="btn btn-primary text-white btn-sm" >Ocultar Borrrados</a>
                 {% else %}
-                <a href="/gusuarios_all" class="btn btn-primary text-white btn-sm" >Mostrar Borrrados</a>
+                <a href="/usuarios_deleted" class="btn btn-primary text-white btn-sm" >Mostrar Borrrados</a>
                 {% endif %}
                 <a href="{{ url_for('authentication.logout') }}" class="btn btn-secondary btn-sm " >Salir</a>
             </div>
@@ -51,8 +51,8 @@
                                 <td>{{usuario.nombres}}</td>
                                 <td>{{usuario.apellidos}}</td>
                                 <td>{{usuario.rol}}</td>
-                                <td>{{usuario.fechar}}</td>
-                                <td>{{usuario.fecham}}</td>
+                                <td>{{usuario.fechar.strftime("%d/%m/%y %H:%M")}}</td>
+                                <td>{{usuario.fecham.strftime("%d/%m/%y %H:%M")}}</td>
                                 <td>
                                     <div class="btn-group" role="group">
                                         <a href="/modificaru/{{usuario.id}}" class="btn btn-success text-white btn-sm " >Modificar</a>
@@ -68,8 +68,8 @@
                                 <td>{{usuario.nombres}}</td>
                                 <td>{{usuario.apellidos}}</td>
                                 <td>{{usuario.rol}}</td>
-                                <td>{{usuario.fechar}}</td>
-                                <td>{{usuario.fecham}}</td>
+                                <td>{{usuario.fechar.strftime("%d/%m/%y %H:%M")}}</td>
+                                <td>{{usuario.fecham.strftime("%d/%m/%y %H:%M")}}</td>
                                 <td>
                                     <div class="btn-group" role="group">
                                         <a href="/modificaru/{{usuario.id}}" class="btn btn-success text-white btn-sm " >Modificar</a>

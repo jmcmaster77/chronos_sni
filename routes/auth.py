@@ -90,7 +90,7 @@ def logout():
         return redirect(url_for("authentication.root"))
     else:
 
-        flash({"title": "Chronos SNI", "message": "Ningún usuario no ha iniciado sesión"}, "info")
+        flash({"title": "Chronos SNI", "message": "Ningún usuario ha iniciado sesión"}, "info")
 
     return redirect(url_for("authentication.root"))
 
