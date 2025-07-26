@@ -63,10 +63,10 @@ body {
   pointer-events: none;
 }
 
-.navigation ul li:nth-child(2) {
+/* .navigation ul li:nth-child(2) {
   pointer-events: none;
   margin-left: 60px;
-}
+} */
 
 .navigation ul li a {
   position: relative;
@@ -98,9 +98,17 @@ body {
   text-align: center;
 }
 
+.navigation ul li a .icon_app img {
+  margin-top: 8px;
+  width: 60px;
+  height: 60px;
+  /* filter: invert(1); */
+  /* font-size: 1.75rem;  <- en caso de colocar un icono de una CDN como ion-icon */
+}
+
 .navigation ul li a .icon img {
-  width: 32px;
-  height: 34px;
+  width: 35px;
+  height: 35px;
   filter: invert(1);
   /* font-size: 1.75rem;  <- en caso de colocar un icono de una CDN como ion-icon */
 }
@@ -187,21 +195,22 @@ body {
   cursor: pointer;
 }
 
-.tasa {
+.current_user_info {
   position: relative;
-  width: 115px;
+  width: auto;
   height: 55px;
   overflow: hidden;
   cursor: pointer;
-  padding: 5px 5px;
+  padding-top: 5px;
+  padding-right: 90px;
   border: 2px solid var(--black1);
   border-radius: 5px;
 }
 
-.tasa .icono {
+.current_user_info .icono {
   position: absolute;
   top: 2px;
-  left: 2px;
+  right: 2px;
   width: 45px;
   height: 45px;
   img {
@@ -212,37 +221,26 @@ body {
   /* object-fit: cover; */
 }
 
-.tasa a {
+.current_user_info a {
   text-decoration: none;
   color: var(--black1);
   font-weight: 800;
 }
 
-.tasa .tasav {
+.current_user_info .current_user {
   position: relative;
-  text-align: end;
+  text-align: start;
   display: block;
   padding: 0 10px;
   height: 45px;
   line-height: 40px;
 }
 
-.tipoUsuario {
-  position: relative;
-  width: 45px;
-  height: 45px;
-  border-radius: 50%;
-  overflow: hidden;
-  cursor: pointer;
-}
-
-.tipoUsuario img {
+.current_user_info .session-clock {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+  top: 14px;
+  right: 50px;
+  font-weight: 600;
 }
 
 /* =========== tarjetas =========== */

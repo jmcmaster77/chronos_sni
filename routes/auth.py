@@ -1,6 +1,6 @@
 from flask import Blueprint, redirect, url_for, render_template, request, flash, current_app
 from flask_login import login_required, logout_user, UserMixin, current_user
-from flask_wtf.csrf import CSRFError
+
 from utils.log import logger, datos_log
 from Services.authenticator import Autenticate
 from models.Userdb import Usuarios
@@ -83,8 +83,6 @@ def login():
 def logout():
     if current_user.is_authenticated:
         logger.info("User id " + str(current_user.id) + " | " + current_user.username + " | finalizo sesión")
-        current_app.config["TOASTR_CLOSE_BUTTON"] = "false"
-        current_app.config["TOASTR_TIMEOUT"] = "1500"
         flash({"title": "Chronos SNI", "message": "Usuario " + current_user.username + " finaliza sesión"}, "info")
         logout_user()
         return redirect(url_for("authentication.root"))
@@ -93,13 +91,3 @@ def logout():
         flash({"title": "Chronos SNI", "message": "Ningún usuario ha iniciado sesión"}, "info")
 
     return redirect(url_for("authentication.root"))
-
-
-# Manejando errores
-
-
-@authentication.errorhandler(CSRFError)
-def handle_csrf_error(e):
-    logger.error("CSRF token expirado: reridigiendo al login")
-    flash({"title": "Chronos SNI", "message": "CSRF token expirado"}, "error")
-    return redirect(url_for("authentication.login"))

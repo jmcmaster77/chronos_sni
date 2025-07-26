@@ -1,10 +1,11 @@
-from flask import Blueprint, request, redirect, url_for, render_template, flash
+from flask import Blueprint, request, redirect, url_for, render_template, flash, jsonify
 from flask_login import login_required, current_user
 from models.Userdb import Usuarios
 from utils.db import db
 from utils.log import logger, datos_log
 from werkzeug.security import generate_password_hash
 from datetime import datetime
+
 
 usuarios = Blueprint("usuarios", __name__)
 
@@ -58,52 +59,40 @@ def registro_usuarios():
         # Validar que el nombre de usuario no este registrado
         consultaUsuario = db.query(Usuarios).filter_by(username=request.form["username"]).first()
         if consultaUsuario == None:
-            if request.form["clave"] == request.form["confirmacion"]:
-                # validando que las claves suministradas coincidan
-                fecha = datetime.now()
-                fechar = fecham = fecha.strftime("%Y/%m/%d %H:%M:%S")
-                new_user = Usuarios(
-                    request.form["username"],
-                    generate_password_hash(request.form["clave"]),
-                    request.form["nombres"],
-                    request.form["apellidos"],
-                    request.form["ci"],
-                    request.form["rol"],
-                    fechar,
-                    fecham,
-                    False,
-                )
-                db.add(new_user)
-                db.commit()
-                logger.info(
-                    "User id "
-                    + str(current_user.id)
-                    + " | "
-                    + current_user.username
-                    + " | Registra el usuario: "
-                    + new_user.username
-                )
-                flash(
-                    {
-                        "title": "Chronos SNI",
-                        "message": "Usuario: " + new_user.username + " registrado satisfactoriamente",
-                    },
-                    "success",
-                )
-                return redirect(url_for("usuarios.send_usuarios"))
-            else:
-                logger.error(
-                    "User id "
-                    + str(current_user.id)
-                    + " | "
-                    + current_user.username
-                    + " | intenta registrar usuario pero las claves no coinciden"
-                )
-                flash(
-                    {"title": "Chronos SNI", "message": "intenta registrar usuario pero las claves no coinciden."},
-                    "error",
-                )
-                return redirect(url_for("usuarios.registro_usuarios"))
+            # Nota: la clave y confirmacion ahora se estan validando en el front con un script antes del submit
+            # validando que las claves suministradas coincidan
+            fecha = datetime.now()
+            fechar = fecham = fecha.strftime("%Y/%m/%d %H:%M:%S")
+            new_user = Usuarios(
+                request.form["username"],
+                generate_password_hash(request.form["clave"]),
+                request.form["nombres"],
+                request.form["apellidos"],
+                request.form["ci"],
+                request.form["rol"],
+                fechar,
+                fecham,
+                False,
+            )
+            db.add(new_user)
+            db.commit()
+            logger.info(
+                "User id "
+                + str(current_user.id)
+                + " | "
+                + current_user.username
+                + " | Registra el usuario: "
+                + new_user.username
+            )
+            flash(
+                {
+                    "title": "Chronos SNI",
+                    "message": "Usuario: " + new_user.username + " registrado satisfactoriamente",
+                },
+                "success",
+            )
+            return redirect(url_for("usuarios.send_usuarios"))
+
         else:
             flash({"title": "Chronos SNI", "message": "El nombre de usuario ya esta en uso por otro usuario."}, "error")
             logger.error(
@@ -114,3 +103,11 @@ def registro_usuarios():
                 + " | intenta registrar usuario pero en nombre de usuario ya esta en uso"
             )
             return redirect(url_for("usuarios.registro_usuarios"))
+
+
+@usuarios.route("/check-username")
+@login_required
+def check_username():
+    username = request.args.get("username")
+    exists = db.query(Usuarios).filter_by(username=username).first() is not None
+    return jsonify({"exists": exists})

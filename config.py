@@ -22,9 +22,10 @@ conexuridb = f"mariadb+pymysql://{userdb}:{pwdb}@{hostdb}:{dbport}/{database}?ch
 
 class Config:
     SECRET_KEY = sk
-    PERMANENT_SESSION_LIFETIME = timedelta(minutes=5)  # tiempo de vida del token
-    TOASTR_CLOSE_BUTTON = "false"
+    PERMANENT_SESSION_LIFETIME = timedelta(minutes=10)  # tiempo de vida del token
+    TOASTR_CLOSE_BUTTON = "true"
     TOASTR_TIMEOUT = "1500"
+    TOASTR_OPACITY = "false"
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 

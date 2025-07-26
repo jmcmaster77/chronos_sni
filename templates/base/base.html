@@ -1,51 +1,80 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{% block title %}{% endblock%}</title>
     <!-- favicon  -->
-    <link rel="icon" href="{{ url_for('static', filename='ico/favicon.ico') }}" type="image/x-icon">
+    <link rel="icon" href="{{ url_for('static', filename='ico/favicon.ico') }}" type="image/x-icon" />
     <!-- scripts para fucionalidad de busqueda de la tabla -->
     <script src="{{url_for('static', filename='js/jquery3.7.1.min.js')}}"></script>
     <!-- <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='dt/css/dataTables.bootstrap5.min.css')}}"> -->
-    <link rel="stylesheet" href="{{url_for('static', filename='ndt/dataTables.dataTables.min.css')}}">
-    <link rel="stylesheet" href="{{url_for('static', filename='ndt/responsive.dataTables.css')}}">
-    <!-- scripts para fucionalidad del datepicker -->        
-    <link rel="stylesheet" href="{{url_for('static', filename='css/datepicker_1.9.0_css_bootstrap-datepicker.min.css')}}"/>
+    <link rel="stylesheet" href="{{url_for('static', filename='ndt/dataTables.dataTables.min.css')}}" />
+    <link rel="stylesheet" href="{{url_for('static', filename='ndt/responsive.dataTables.css')}}" />
+    <!-- scripts para fucionalidad del datepicker -->
+    <link rel="stylesheet" href="{{url_for('static', filename='css/datepicker_1.9.0_css_bootstrap-datepicker.min.css')}}" />
     <script src="{{url_for('static', filename='js/bootstrap-datepicker.min.js')}}"></script>
     <!-- Estilos Bootstrap 5 offline-->
-    <link rel="stylesheet" href="{{url_for('static', filename='nBootstrap5.3.3/bootstrap.min.css')}}"/>
+    <link rel="stylesheet" href="{{url_for('static', filename='nBootstrap5.3.3/bootstrap.min.css')}}" />
     <script src="{{url_for('static', filename='nBootstrap5.3.3/bootstrap.bundle.min.js')}}"></script>
     <!-- Estilos personalizados-->
-    <link rel="stylesheet" href="{{url_for('static', filename='css/main.css')}} ">
-    
-    <!-- Estilos Animado-->
-    <link rel="stylesheet" href="{{url_for('static', filename='css/animate.css_4.1.1_animate.min.css')}}">
-    <!-- Date toastr css  -->
-    <link rel="stylesheet" href="{{url_for('static', filename='css/toastr.css')}}"/>    
-    {{ toastr.message() }}
-    {% block customCSS %}
+    <link rel="stylesheet" href="{{url_for('static', filename='css/main.css')}} " />
 
-    {% endblock %}    
-</head>
-<body>
-    {% block body %}
-    {% endblock %}
+    <!-- Estilos Animado-->
+    <link rel="stylesheet" href="{{url_for('static', filename='css/animate.css_4.1.1_animate.min.css')}}" />
+    <!-- Date toastr css  -->
+    <link rel="stylesheet" href="{{url_for('static', filename='css/toastr.css')}}" />
+    {{ toastr.message() }} {% block customCSS %} {% endblock %}
+  </head>
+  <body>
+    {% block body %} {% endblock %}
     <!-- Date toastr js  -->
     <script src="{{url_for('static', filename='js/toastr.min.js')}}"></script>
     <!-- Date Datatables responsive  -->
-    <script src="{{url_for('static', filename='ndt/dataTables.min.js')}}" ></script>
-    <script src="{{url_for('static', filename='ndt/dataTables.responsive.js')}}" ></script>
-    <script src="{{url_for('static', filename='ndt/responsive.dataTables.js')}}" ></script>    
+    <script src="{{url_for('static', filename='ndt/dataTables.min.js')}}"></script>
+    <script src="{{url_for('static', filename='ndt/dataTables.responsive.js')}}"></script>
+    <script src="{{url_for('static', filename='ndt/responsive.dataTables.js')}}"></script>
     <!-- scripts Botones Datatables New-->
-    <script src="{{url_for('static', filename='nBootstrap5.3.3/dataTables.buttons.js')}}" ></script>
-    <script src="{{url_for('static', filename='nBootstrap5.3.3/jszip.min.js')}}" ></script>
-    <script src="{{url_for('static', filename='nBootstrap5.3.3/pdfmake.min.js')}}" ></script>
-    <script src="{{url_for('static', filename='nBootstrap5.3.3/vfs_fonts.js')}}" ></script>
-    <script src="{{url_for('static', filename='nBootstrap5.3.3/buttons.html5.min.js')}}" ></script>
-    <script src="{{url_for('static', filename='nBootstrap5.3.3/buttons.print.min.js')}}" ></script>    
+    <script src="{{url_for('static', filename='nBootstrap5.3.3/dataTables.buttons.js')}}"></script>
+    <script src="{{url_for('static', filename='nBootstrap5.3.3/jszip.min.js')}}"></script>
+    <script src="{{url_for('static', filename='nBootstrap5.3.3/pdfmake.min.js')}}"></script>
+    <script src="{{url_for('static', filename='nBootstrap5.3.3/vfs_fonts.js')}}"></script>
+    <script src="{{url_for('static', filename='nBootstrap5.3.3/buttons.html5.min.js')}}"></script>
+    <script src="{{url_for('static', filename='nBootstrap5.3.3/buttons.print.min.js')}}"></script>
+    <script>
+      // Duración total de la sesión en segundos
+      // const totalSeconds = 30 * 60; // 30 minutos
+      const totalSeconds = 10 * 60;
+      const loginTime = new Date("{{ session['login_time'] }}"); // Flask debe enviar esto
+      const endTime = new Date(loginTime.getTime() + totalSeconds * 1000);
+      let sessionExpired = false;  
+      function updateTimer() {
+        const now = new Date();
+        const remaining = Math.max(0, Math.floor((endTime - now) / 1000));
+        const minutes = String(Math.floor(remaining / 60)).padStart(2, "0");
+        const seconds = String(remaining % 60).padStart(2, "0");
+        // document.getElementById("session-timer").textContent = `${minutes}:${seconds}`;
+        const timerElement = document.getElementById("session-timer");
+        timerElement.textContent = `${minutes}:${seconds}`;
 
+        // Si queda menos de 60 segundos: activar titilado rojo
+        if (remaining <= 60) {
+          timerElement.classList.add("rojo-titilando");
+        } else {
+          timerElement.classList.remove("rojo-titilando");
+        }
 
-</body>
+        if (remaining === 0 && !sessionExpired) {
+          sessionExpired = true;
+          toastr.warning("Tu sesión ha expirado. Redirigiendo...", "Tiempo agotado");
+
+          // Redirección opcional:
+          setTimeout(() => (window.location.href = "/logout"), 3000);
+        }
+      }
+
+      setInterval(updateTimer, 1000);
+
+    </script>
+  </body>
 </html>

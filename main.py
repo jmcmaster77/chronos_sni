@@ -1,12 +1,13 @@
 # Main Chronos Sistema de Notas Inteligente
-from flask import Flask
+from flask import Flask, request, session
 from config import FLASK_RUN_HOST, FLASK_RUN_PORT, ipserver, soporte, config, appinfo, plantelinfo
 from flask_wtf.csrf import CSRFProtect
 from utils.db_init import cronos_db_init
 from flask_login import LoginManager
 from Services.authenticator import Autenticate
 from utils.log import logger
-from utils.manejador_caos import status_404, status_401
+from utils.manejador_caos import status_404, status_401, csrf_error
+from utils.session_refresh import latido_de_chronos
 from flask_toastr import Toastr
 from routes.auth import authentication
 from routes.dashboard import dashboard
@@ -39,6 +40,11 @@ def user_loader(id):
     return Autenticate.get_by_id(id)
 
 
+@app.before_request
+def renovar_login_time():
+    latido_de_chronos()
+
+
 def mensajeria(modo):
     logger.info("App Iniciada")
     if modo == "dev":
@@ -63,7 +69,9 @@ if __name__ == "__main__":
         app.config.from_object(config["development"])
         app.register_error_handler(404, status_404)
         app.register_error_handler(401, status_401)
-        # consulta de cositas 
+        app.register_error_handler(400, csrf_error)
+
+        # consulta de cositas
         # print("SQLALCHEMY_TRACK_MODIFICATIONS:", app.config.get("SQLALCHEMY_TRACK_MODIFICATIONS"))
         if os.environ.get("WERKZEUG_RUN_MAIN") == "true":
             mensajeria("dev")

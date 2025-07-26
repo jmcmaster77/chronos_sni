@@ -1,4 +1,7 @@
 notas_Chronos_SNI.txt
+*.log.1
+*.log.2
+*.log.3
 *.log
 *.pyc
 .vscode

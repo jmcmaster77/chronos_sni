@@ -1,24 +1,19 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="/" >
-      <img src="{{ url_for('static', filename='ico/favicon.ico') }}" alt="" width="45" height="40" class="d-inline-block align-text-top">
-      Chronos Sistema de Notas Inteligente | {{current_user.nombres}} {{current_user.apellidos}}
-      {% if current_user.rol == 'admin' %}
-      <img src="{{ url_for('static', filename='ico/admin.svg') }}" alt="" width="50" height="30" style="filter: invert(1);" class="d-inline-block align-text-top">
-      {% else %}
-      <img src="{{ url_for('static', filename='ico/user.svg') }}" alt="" width="50" height="30" style="filter: invert(1);" class="d-inline-block align-text-top">
-      {% endif %}
-      |
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/">
+      <img src="{{ url_for('static', filename='ico/favicon.ico') }}" alt="" width="45" height="45" class="d-inline-block align-text-top" />
+      Chronos SNI ver 0.5
     </a>
-    
-    <button
-      class="navbar-toggler"
-      type="button"
-      data-bs-toggle="collapse"
-      data-bs-target="#navbarNav"
-      aria-controls="navbarNav"
-      aria-expanded="false"
-      aria-label="Toggle navigation"
-    >
+    <a class="navbar-brand" href="#"
+      >{{current_user.nombres}} {{current_user.apellidos}} 
+      <a class="navbar-brand" href="#"id="session-timer" ></a>
+      {% if current_user.rol == 'admin' %}
+      <img src="{{ url_for('static', filename='ico/admin.svg') }}" alt="" width="40" height="40" style="filter: invert(1)" class="d-inline-block" />
+      {% else %}
+      <img src="{{ url_for('static', filename='ico/user.svg') }}" alt="" width="40" height="40" style="filter: invert(1)" class="d-inline-block" />
+      {% endif %}
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
@@ -27,9 +22,7 @@
           <a class="nav-link active" href="/dashboard">Inicio</a>
         </li>
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Modulos
-          </a>
+          <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false"> Modulos </a>
           <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdownMenuLink">
             {% if current_user.rol == "admin" %}
             <li><a class="dropdown-item" href="/usuarios">Usuarios</a></li>
@@ -42,16 +35,13 @@
             <li><a class="dropdown-item" href="#">Compras</a></li>
             <li><a class="dropdown-item" href="#">Ventas</a></li>
             <li><a class="dropdown-item" href="#">Presupuestos</a></li>
-            
+            <li><a class="dropdown-item" href="/acercade">Información</a></li>
           </ul>
         </li>
         <li class="nav-item">
-          <a class="nav-link active" href="/acercade">Información</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link active" href="{{ url_for('authentication.logout') }}">Salir</a>
+          <a class="nav-link active" href="{{ url_for('authentication.logout') }}">Cerrar Sesión</a>
         </li>
       </ul>
     </div>
-  
+  </div>
 </nav>

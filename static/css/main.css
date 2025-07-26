@@ -29,3 +29,20 @@ body {
 body.lista {
   background: white !important;
 }
+
+@keyframes titilar-rojo {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.rojo-titilando {
+  color: red;
+  animation: titilar-rojo 1s infinite;
+}

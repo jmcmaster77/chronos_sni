@@ -3,6 +3,7 @@ from flask_login import login_required, current_user
 from utils.log import logger, datos_log
 from utils.db import db
 
+
 dashboard = Blueprint("dashboard", __name__)
 
 
@@ -12,9 +13,8 @@ def dashboard_page():
     datos_request = datos_log(request)
     logger.info(datos_request)
     # ================= Reaudacion datos para el dash Board
-    # ya veremos que se va a pintar 
+    # ya veremos que se va a pintar
 
-    
     logger.info("User id " + str(current_user.id) + " | " + current_user.username + " | llega al dashboard")
     return render_template("dashboard.html")
 

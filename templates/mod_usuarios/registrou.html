@@ -36,6 +36,27 @@
                 }
               });
             });
+            $("#username").on("blur", function() {
+              let username = $(this).val();
+              if (username.length >= 4) {
+                $.get("/check-username", {username}, function(data) {
+                  if (data.exists) {
+                    toastr.options.closeButton = true;
+                    toastr.options.progressBar = true;
+                    toastr.options.positionClass = "toast-top-center";
+                    toastr.options.timeOut = 1500;
+                    toastr.error(`El nombre de usuario: ${username} ya esta en uso`, "Por favor escribir otro");
+                    $("#username").val("").focus();
+                  } else {
+                    toastr.options.closeButton = true;
+                    toastr.options.progressBar = true;
+                    toastr.options.positionClass = "toast-top-center";
+                    toastr.options.timeOut = 1500;
+                    toastr.success(`Nombre de usuario: ${username} disponible para registrar`);
+                  }
+                })
+              }
+            });
           </script>
         </div>
         <div class="col">
