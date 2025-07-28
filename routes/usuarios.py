@@ -213,7 +213,7 @@ def eliminaru(id):
             flash({"title": "Chronos SNI", "message": mensaje}, "warning")
             return redirect(url_for("usuarios.send_usuarios"))
 
-        db.deleted
+        db.delete(userdata)
         db.commit()
         logger.info("User id " + str(current_user.id) + " | " + current_user.username + " | elimina el id: " + id)
         mensaje = f"El usuario:  {userdata.username} fue eliminado"
