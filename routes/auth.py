@@ -32,35 +32,14 @@ def login():
         if userdata != None:
             if Autenticate.login(userdata, password):
                 if userdata.deleted == True:
-                    logger.error(
-                        "User id "
-                        + str(current_user.id)
-                        + " | "
-                        + current_user.nombres
-                        + " | "
-                        + current_user.apellidos
-                        + " login fallido, usuario inhabilitado"
-                    )
+                    logger.error("User id " + str(current_user.id) + " | " + current_user.nombres + " | " + current_user.apellidos + " login fallido, usuario inhabilitado")
                     flash({"title": "Chronos SNI", "message": "Usuario inhabilitado"}, "error")
                     logout_user()
                     return redirect(url_for("authentication.login"))
                 else:
-                    logger.info(
-                        "User id "
-                        + str(current_user.id)
-                        + " | "
-                        + current_user.nombres
-                        + " | "
-                        + current_user.apellidos
-                        + " login exitoso"
-                    )
-                    flash(
-                        {
-                            "title": "Chronos SNI",
-                            "message": "Bienvenido " + current_user.nombres + " " + current_user.apellidos,
-                        },
-                        "success",
-                    )
+                    logger.info("User id " + str(current_user.id) + " | " + current_user.nombres + " | " + current_user.apellidos + " login exitoso")
+                    mensaje = f"Bienvenido " + current_user.nombres + " " + current_user.apellidos
+                    flash({"title": "Chronos SNI", "message": mensaje}, "success")
                     return redirect(url_for("dashboard.dashboard_page"))
             else:
                 # no puedes colocar attributos del usuarios si no esta authenticate

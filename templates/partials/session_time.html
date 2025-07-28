@@ -1,0 +1,35 @@
+    <script>
+      // Duración total de la sesión en segundos
+      // const totalSeconds = 30 * 60; // 30 minutos
+      const totalSeconds = 10 * 60;
+      const loginTime = new Date("{{ session['login_time'] }}"); // Flask debe enviar esto
+      const endTime = new Date(loginTime.getTime() + totalSeconds * 1000);
+      let sessionExpired = false;  
+      function updateTimer() {
+        const now = new Date();
+        const remaining = Math.max(0, Math.floor((endTime - now) / 1000));
+        const minutes = String(Math.floor(remaining / 60)).padStart(2, "0");
+        const seconds = String(remaining % 60).padStart(2, "0");
+        // document.getElementById("session-timer").textContent = `${minutes}:${seconds}`;
+        const timerElement = document.getElementById("session-timer");
+        timerElement.textContent = `${minutes}:${seconds}`;
+
+        // Si queda menos de 60 segundos: activar titilado rojo
+        if (remaining <= 60) {
+          timerElement.classList.add("rojo-titilando");
+        } else {
+          timerElement.classList.remove("rojo-titilando");
+        }
+
+        if (remaining === 0 && !sessionExpired) {
+          sessionExpired = true;
+          toastr.warning("Tu sesión ha expirado. Redirigiendo...", "Tiempo agotado");
+
+          // Redirección opcional:
+          setTimeout(() => (window.location.href = "/logout"), 3000);
+        }
+      }
+
+      setInterval(updateTimer, 1000);
+
+    </script>

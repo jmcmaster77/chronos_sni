@@ -56,7 +56,7 @@ def validacion_usuarios_default():
     resgistros = db.query(Usuarios).all()
     if not resgistros:
         logger.info("⌛ Crenado usuarios demo...")
-        crear_usuarios("demo", "demo2025", "demo", "demo", 1, "admin")
+        crear_usuarios("demo", "demo2025", "demo", "demo", 12345678, "admin")
         crear_usuarios("soporte", "Ryusen999*", "Jorge", "Martin", 15332813, "admin")
 
 

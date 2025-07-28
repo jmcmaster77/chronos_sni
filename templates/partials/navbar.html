@@ -5,13 +5,12 @@
       Chronos SNI ver 0.5
     </a>
     <a class="navbar-brand" href="#"
-      >{{current_user.nombres}} {{current_user.apellidos}} 
-      <a class="navbar-brand" href="#"id="session-timer" ></a>
-      {% if current_user.rol == 'admin' %}
+      >{{current_user.nombres}} {{current_user.apellidos}} {% if current_user.rol == 'admin' %}
       <img src="{{ url_for('static', filename='ico/admin.svg') }}" alt="" width="40" height="40" style="filter: invert(1)" class="d-inline-block" />
       {% else %}
       <img src="{{ url_for('static', filename='ico/user.svg') }}" alt="" width="40" height="40" style="filter: invert(1)" class="d-inline-block" />
       {% endif %}
+      <a class="navbar-brand" href="#" id="session-timer"></a>
     </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -39,9 +38,10 @@
           </ul>
         </li>
         <li class="nav-item">
-          <a class="nav-link active" href="{{ url_for('authentication.logout') }}">Cerrar Sesión</a>
+          <a class="nav-link active" href="{{ url_for('authentication.logout') }}">Cerrar sesión</a>
         </li>
       </ul>
     </div>
   </div>
 </nav>
+{% include('partials/session_time.html') %}
